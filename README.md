@@ -44,3 +44,7 @@ turns a lesson into exercises and chooses believable wrong tiles. A test in
 manifest, the icons, and `sw.js`, a service worker that lets the app open offline once it's
 saved to a home screen. Pushing to `main` deploys to GitHub Pages
 (`.github/workflows/pages.yml`).
+
+The icons are drawn by `scripts/make_icons.py` (it needs Pillow):
+
+    python3 scripts/make_icons.py public/icons
