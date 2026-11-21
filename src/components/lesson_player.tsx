@@ -227,7 +227,8 @@ function LessonIntro({ lessonRef, timing, onStart, onQuit }: {
         {items.length > 0 && (
           <ul className="introItems">
             {items.map(item => (
-              <li key={item.text}>
+              // a phrase or a long word gets a whole row, so its code isn't squeezed
+              <li key={item.text} className={/ /.test(item.text.trim()) || displayText(item.text).length > 6 ? "wide" : undefined}>
                 <button type="button" className={`introItem${playing == item.text ? " playing" : ""}`} onClick={() => play(item.text)}>
                   <span className="introItemText">{displayText(item.text)}</span>
                   <MorseCode text={item.text} size="small" playState={playing == item.text ? playState : undefined} />

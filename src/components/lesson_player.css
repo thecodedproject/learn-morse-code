@@ -549,3 +549,11 @@
   justify-content: center;
   row-gap: 0.6em;
 }
+
+.lessonIntroBody .introItems li.wide {
+  grid-column: 1 / -1;
+}
+
+.introItems li.wide .introItemText {
+  font-size: 24px;
+}

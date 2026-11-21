@@ -38,3 +38,7 @@ export interface ChapterDef {
 }
 
 export const PASS_MARK = 0.8
+
+// a chapter test is longer than a lesson, whatever the lesson length is set to
+export const TEST_LENGTH = 16
+export const TEST_INTRO = "Sixteen questions on everything in this chapter. Score 80% to pass."

@@ -150,17 +150,13 @@ export function TapExercise({ exercise, keyUnitMs, locked, onAnswer }: ExerciseP
   )
 }
 
-// matchProsign reads a keyed letter, recognising a prosign in the answer (which has no
-// letter of its own)
+// matchProsign reads a keyed letter, recognising a prosign in the answer first, as a
+// prosign has no letter of its own or shares one (BT is sent the same as =)
 function matchProsign(code: string, text: string): string {
-  const letter = decodeLetter(code)
-  if (letter != "?") {
-    return letter
-  }
   for (const l of tokenize(text).flat()) {
     if (l.startsWith("<") && letterCode(l) == code) {
       return l.slice(1, -1)
     }
   }
-  return "?"
+  return decodeLetter(code)
 }

@@ -2,7 +2,7 @@
 // items they ask about, and the tiles to choose from, with some wrong ones among them.
 
 import { Difficulty, EXERCISE_KINDS, ExerciseKind, Item, LessonDef } from "../course/types"
-import { codeDistance, displayText, letterCode, LETTERS, tokenize } from "./morse"
+import { codeDistance, displayText, letterCode, MORSE, tokenize } from "./morse"
 import { Rng, seededRng, shuffle } from "./random"
 
 export interface Tile {
@@ -129,14 +129,20 @@ function distractorCount(answerLength: number): number {
   return answerLength <= 1 ? 3 : answerLength <= 3 ? 4 : 5
 }
 
-// similarLetters are letters that are easy to mix up with the answer's: close in code,
-// preferring those already learned
+// a letter, a digit, or a punctuation mark (a prosign counts as a letter)
+function charClass(l: string): string {
+  return /^[0-9]$/.test(l) ? "digit" : /^[A-Z]$|^</.test(l) ? "letter" : "mark"
+}
+
+// similarLetters are characters that are easy to mix up with the answer's: close in
+// code, preferring those already learned and of the same sort (digits for a number)
 function similarLetters(units: string[], context: LessonContext, rng: Rng): string[] {
   const known = new Set(context.knownLetters)
-  const candidates = LETTERS.filter(l => !units.includes(l))
+  const classes = new Set(units.map(charClass))
+  const candidates = Object.keys(MORSE).filter(l => !units.includes(l))
   const score = (l: string) => {
     const nearest = Math.min(...units.map(u => codeDistance(letterCode(u), letterCode(l))))
-    return nearest + (known.has(l) ? 0 : 1.5) + rng() * 0.9
+    return nearest + (known.has(l) ? 0 : 1.5) + (classes.has(charClass(l)) ? 0 : 3) + rng() * 0.9
   }
   return candidates
     .map(l => ({ l, s: score(l) }))

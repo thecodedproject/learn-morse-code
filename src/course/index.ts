@@ -4,9 +4,12 @@ import { Timing } from "../lib/timing"
 import { chapter1 } from "./chapter1"
 import { chapter2 } from "./chapter2"
 import { chapter3 } from "./chapter3"
+import { chapter4 } from "./chapter4"
+import { chapter5 } from "./chapter5"
+import { chapter6 } from "./chapter6"
 import { ChapterDef, LessonDef } from "./types"
 
-export const CHAPTERS: ChapterDef[] = [chapter1, chapter2, chapter3]
+export const CHAPTERS: ChapterDef[] = [chapter1, chapter2, chapter3, chapter4, chapter5, chapter6]
 
 // a lesson's place in the course; the test is the lesson after the last
 export interface LessonRef {

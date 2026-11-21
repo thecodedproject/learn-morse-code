@@ -32,6 +32,11 @@ turns a lesson into exercises and chooses believable wrong tiles. A test in
 1. First Letters: E T A I N M S O, first words, and SOS
 2. More Letters: R D U K G W H L, with words and short phrases
 3. The Rest of the Alphabet: F P B V C Y J Q X Z, and radio shorthand (CQ, TNX, …)
+4. Words & Phrases: the commonest words, greetings, sentences, and famous messages
+5. Numbers & Punctuation: 0 to 9, then . , ? / = - and @
+6. Radio Talk: prosigns, Q-codes, callsigns, and a whole contact from CQ to 73
+
+Lessons are 12 exercises by default (it's a setting); chapter tests are always 16.
 
 ## Building
 

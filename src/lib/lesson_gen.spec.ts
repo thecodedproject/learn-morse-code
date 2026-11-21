@@ -86,6 +86,23 @@ describe("the course", () => {
     }
   })
 
+  it("makes every test longer than a lesson", () => {
+    for (const chapter of CHAPTERS) {
+      expect(chapter.test.exerciseCount).toBe(16)
+    }
+  })
+
+  it("offers digits as wrong answers for digits", () => {
+    const ref = findLesson("c5", 2)!
+    for (let seed = 1; seed <= 10; seed++) {
+      for (const ex of generateLesson(ref.lesson, lessonContext(ref), 12, seed)) {
+        if ((ex.kind == "listenReadTiles" || ex.kind == "listenTiles") && /^[0-9]$/.test(ex.item.text)) {
+          expect(ex.tiles.every(t => /^[0-9]$/.test(t.label))).toBe(true)
+        }
+      }
+    }
+  })
+
   it("splits answers into letters or words", () => {
     expect(answerUnits("TEA")).toEqual(["T", "E", "A"])
     expect(answerUnits("I AM")).toEqual(["I", "AM"])

@@ -20,4 +20,15 @@ describe("grading", () => {
     expect(sameLetters("TO MATO", "TOMATO")).toBe(true)
     expect(sameLetters("TOMATOE", "TOMATO")).toBe(false)
   })
+
+  it("needs punctuation only where the answer has it", () => {
+    expect(isCorrect("?", "?")).toBe(true)
+    expect(isCorrect("", "?")).toBe(false)
+    expect(isCorrect("how are you", "HOW ARE YOU?")).toBe(false)
+    expect(isCorrect("how are you ?", "HOW ARE YOU?")).toBe(true)
+    expect(isCorrect("yes,please.", "YES, PLEASE.")).toBe(true)
+    expect(isCorrect("hello!", "HELLO")).toBe(true)
+    expect(sameLetters("SEE YOU AT 5.", "SEE YOU AT 5.")).toBe(true)
+    expect(sameLetters("SEE YOU AT 5", "SEE YOU AT 5.")).toBe(false)
+  })
 })

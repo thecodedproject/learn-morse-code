@@ -1,5 +1,5 @@
 import { letters, phrases, words } from "./helpers"
-import { ChapterDef } from "./types"
+import { ChapterDef, TEST_INTRO, TEST_LENGTH } from "./types"
 
 // The eight letters with the shortest codes, which happen to be among the commonest
 // in English too: enough to make plenty of words.
@@ -79,7 +79,7 @@ export const chapter1: ChapterDef = {
   test: {
     id: "c1t",
     title: "Chapter test",
-    intro: "Twelve questions on everything in this chapter. Score 80% to pass.",
+    intro: TEST_INTRO,
     newItems: [
       ...letters("ETAINMSO"),
       ...words("IT ON ME TEA MAN NOTE TIME"),
@@ -87,6 +87,6 @@ export const chapter1: ChapterDef = {
       ...phrases("I AM|IT IS"),
     ],
     difficulty: 5,
-    exerciseCount: 12,
+    exerciseCount: TEST_LENGTH,
   },
 }

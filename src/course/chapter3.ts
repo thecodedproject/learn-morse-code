@@ -1,5 +1,5 @@
 import { letters, words } from "./helpers"
-import { ChapterDef } from "./types"
+import { ChapterDef, TEST_INTRO, TEST_LENGTH } from "./types"
 
 // The rest of the alphabet: the less common letters, all four elements long.
 export const chapter3: ChapterDef = {
@@ -86,7 +86,7 @@ export const chapter3: ChapterDef = {
   test: {
     id: "c3t",
     title: "Chapter test",
-    intro: "Twelve questions on everything in this chapter. Score 80% to pass.",
+    intro: TEST_INTRO,
     newItems: [
       ...letters("FPBVCYJQXZ"),
       ...words("FOX QUIZ JAZZ CITY"),
@@ -94,6 +94,6 @@ export const chapter3: ChapterDef = {
       { text: "TNX" },
     ],
     difficulty: 5,
-    exerciseCount: 12,
+    exerciseCount: TEST_LENGTH,
   },
 }

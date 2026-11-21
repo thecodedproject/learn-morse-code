@@ -37,7 +37,7 @@ export function Home({ progress, goal }: { progress: Progress, goal: number }): 
           )
         })}
       </ol>
-      <p className="moreSoon">More chapters coming soon: words &amp; phrases, numbers, and radio talk.</p>
+      <p className="moreSoon">More chapters coming soon.</p>
     </div>
   )
 }

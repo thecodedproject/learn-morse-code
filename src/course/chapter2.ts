@@ -1,5 +1,5 @@
 import { letters, phrases, words } from "./helpers"
-import { ChapterDef } from "./types"
+import { ChapterDef, TEST_INTRO, TEST_LENGTH } from "./types"
 
 const CH1 = "ETAINMSO"
 
@@ -77,13 +77,13 @@ export const chapter2: ChapterDef = {
   test: {
     id: "c2t",
     title: "Chapter test",
-    intro: "Twelve questions on everything in this chapter. Score 80% to pass.",
+    intro: TEST_INTRO,
     newItems: [
       ...letters("RDUKGWHL"),
       ...words("RED HELLO WORLD GOLD GOOD"),
       ...phrases("WELL DONE|HOLD ON"),
     ],
     difficulty: 5,
-    exerciseCount: 12,
+    exerciseCount: TEST_LENGTH,
   },
 }
