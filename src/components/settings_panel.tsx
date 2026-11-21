@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { player } from "../lib/player"
 import {
-  MAX_EXERCISES, MAX_TONE, MIN_EXERCISES, MIN_TONE, Settings, Speed, SPEEDS, Theme,
+  MAX_EXERCISES, MAX_GOAL, MAX_TONE, MIN_EXERCISES, MIN_GOAL, MIN_TONE, Settings, Speed, SPEEDS, Theme,
 } from "../lib/settings"
 import { CloseIcon } from "./lesson_player"
 
@@ -61,6 +61,14 @@ export function SettingsPanel({ settings, theme, onChange, onTheme, onResetProgr
             id="volume" type="range" min={0} max={1} step={0.05} value={settings.volume}
             onChange={e => onChange({ volume: Number(e.target.value) })}
             onPointerUp={sample} onKeyUp={sample}
+          />
+        </section>
+
+        <section className="setting">
+          <label className="settingLabel" htmlFor="goal">Weekly goal <span className="settingValue">{settings.weeklyGoal} lessons</span></label>
+          <input
+            id="goal" type="range" min={MIN_GOAL} max={MAX_GOAL} step={1} value={settings.weeklyGoal}
+            onChange={e => onChange({ weeklyGoal: Number(e.target.value) })}
           />
         </section>
 

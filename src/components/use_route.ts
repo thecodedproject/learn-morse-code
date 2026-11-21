@@ -5,10 +5,12 @@ import { useEffect, useState } from "react"
 //   #/                   the chapters
 //   #/chapter/c1         a chapter's lessons
 //   #/lesson/c1/0        a lesson (the one after the last is the chapter's test)
+//   #/progress           practice over the weeks
 export type Route =
   | { screen: "home" }
   | { screen: "chapter", chapterId: string }
   | { screen: "lesson", chapterId: string, lessonIndex: number }
+  | { screen: "progress" }
 
 export function parseRoute(hash: string): Route {
   const parts = hash.replace(/^#\/?/, "").split("/").filter(p => p != "")
@@ -18,6 +20,9 @@ export function parseRoute(hash: string): Route {
   if (parts[0] == "lesson" && parts[1] && /^\d+$/.test(parts[2] ?? "")) {
     return { screen: "lesson", chapterId: parts[1], lessonIndex: Number(parts[2]) }
   }
+  if (parts[0] == "progress") {
+    return { screen: "progress" }
+  }
   return { screen: "home" }
 }
 
@@ -26,6 +31,7 @@ export function routeHash(route: Route): string {
     case "home": return "#/"
     case "chapter": return `#/chapter/${route.chapterId}`
     case "lesson": return `#/lesson/${route.chapterId}/${route.lessonIndex}`
+    case "progress": return "#/progress"
   }
 }
 

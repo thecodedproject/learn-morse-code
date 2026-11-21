@@ -12,6 +12,8 @@ export const MIN_TONE = 400
 export const MAX_TONE = 1000
 export const MIN_EXERCISES = 4
 export const MAX_EXERCISES = 20
+export const MIN_GOAL = 1
+export const MAX_GOAL = 40
 
 export interface Settings {
   speed: Speed // scales each lesson's listening speed
@@ -19,6 +21,7 @@ export interface Settings {
   volume: number // 0-1
   exerciseCount: number // per lesson; tests set their own
   keyWpm: number // the tapping speed expected before the keyer has learnt the learner's own
+  weeklyGoal: number // lessons a week to aim for
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -27,6 +30,7 @@ export const DEFAULT_SETTINGS: Settings = {
   volume: 0.7,
   exerciseCount: 12,
   keyWpm: 10,
+  weeklyGoal: 12,
 }
 
 const SETTINGS_KEY = "learn-morse.settings"
@@ -62,6 +66,7 @@ export function parseSettings(saved: string | null): Settings {
     exerciseCount: isNum(raw.exerciseCount) && raw.version >= SETTINGS_VERSION
       ? clamp(Math.round(raw.exerciseCount), MIN_EXERCISES, MAX_EXERCISES) : d.exerciseCount,
     keyWpm: isNum(raw.keyWpm) ? clamp(Math.round(raw.keyWpm), 4, 30) : d.keyWpm,
+    weeklyGoal: isNum(raw.weeklyGoal) ? clamp(Math.round(raw.weeklyGoal), MIN_GOAL, MAX_GOAL) : d.weeklyGoal,
   }
 }
 

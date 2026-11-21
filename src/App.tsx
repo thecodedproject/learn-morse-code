@@ -3,10 +3,12 @@ import { CHAPTERS, findLesson, nextLesson } from "./course"
 import { ChapterView } from "./components/chapter_view"
 import { Home } from "./components/home"
 import { LessonPlayer } from "./components/lesson_player"
+import { ProgressView } from "./components/progress_view"
 import { SettingsPanel } from "./components/settings_panel"
 import { go, useRoute } from "./components/use_route"
 import { player } from "./lib/player"
-import { EMPTY_PROGRESS, loadProgress, Progress, recordScore, saveProgress } from "./lib/progress"
+import { dayKey } from "./lib/history"
+import { EMPTY_PROGRESS, loadProgress, logLesson, Progress, recordScore, saveProgress } from "./lib/progress"
 import { applyTheme, loadSettings, loadTheme, saveSettings, Settings, Theme } from "./lib/settings"
 import "./App.css"
 
@@ -45,7 +47,7 @@ export default function App(): JSX.Element {
           lessonRef={ref}
           settings={settings}
           onFinish={score => setProgress(p => {
-            const updated = recordScore(p, ref.lesson.id, score, ref.isTest)
+            const updated = logLesson(recordScore(p, ref.lesson.id, score, ref.isTest), dayKey(new Date()))
             saveProgress(updated)
             return updated
           })}
@@ -59,8 +61,10 @@ export default function App(): JSX.Element {
     screen = index == -1
       ? <NotFound />
       : <ChapterView chapter={CHAPTERS[index]} index={index} progress={progress} />
+  } else if (route.screen == "progress") {
+    screen = <ProgressView progress={progress} goal={settings.weeklyGoal} />
   } else {
-    screen = <Home progress={progress} />
+    screen = <Home progress={progress} goal={settings.weeklyGoal} />
   }
 
   const inLesson = route.screen == "lesson"

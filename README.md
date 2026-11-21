@@ -17,7 +17,7 @@ A web app for learning Morse code in short lessons, in the style of a language-l
   continue. The more you get right, the more confetti at the end.
 - Listening uses Farnsworth timing: each letter is sent at full speed and the gaps are
   stretched, so letters keep their rhythm. You can make it slower or faster in Settings.
-- Progress, settings and the light/dark choice are kept in `localStorage`.
+- Progress (best scores, and how many lessons were finished each day, shown week by week against a weekly goal), settings and the light/dark choice are kept in `localStorage`.
 
 ## The course
 

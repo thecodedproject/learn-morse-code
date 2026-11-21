@@ -1,7 +1,9 @@
-// How the learner has done: the best score in each lesson, and which chapter tests
-// they have passed. Kept in the browser between visits.
+// How the learner has done: the best score in each lesson, which chapter tests they
+// have passed, and how many lessons they finished each day. Kept in the browser
+// between visits.
 
 import { PASS_MARK } from "../course/types"
+import { DAY_KEY, DayCounts } from "./history"
 
 export interface LessonProgress {
   best: number // 0-1
@@ -10,9 +12,10 @@ export interface LessonProgress {
 
 export interface Progress {
   lessons: Record<string, LessonProgress> // by lesson id; tests use their own id too
+  days: DayCounts // every lesson and test finished, whatever the score
 }
 
-export const EMPTY_PROGRESS: Progress = { lessons: {} }
+export const EMPTY_PROGRESS: Progress = { lessons: {}, days: {} }
 
 const PROGRESS_KEY = "learn-morse.progress"
 
@@ -21,7 +24,7 @@ export function parseProgress(saved: string | null): Progress {
   try {
     raw = saved == null ? {} : JSON.parse(saved)
   } catch {
-    return { lessons: {} }
+    return { lessons: {}, days: {} }
   }
   const lessons: Record<string, LessonProgress> = {}
   if (raw != null && typeof raw == "object" && raw.lessons != null && typeof raw.lessons == "object") {
@@ -31,7 +34,15 @@ export function parseProgress(saved: string | null): Progress {
       }
     }
   }
-  return { lessons }
+  const days: DayCounts = {}
+  if (raw != null && typeof raw == "object" && raw.days != null && typeof raw.days == "object") {
+    for (const [key, count] of Object.entries<any>(raw.days)) {
+      if (DAY_KEY.test(key) && typeof count == "number" && isFinite(count) && count > 0) {
+        days[key] = Math.round(count)
+      }
+    }
+  }
+  return { lessons, days }
 }
 
 // recordScore keeps the better of the new score and the old. A lesson is completed by
@@ -40,6 +51,7 @@ export function recordScore(progress: Progress, id: string, score: number, isTes
   const old = progress.lessons[id]
   const completed = (old?.completed ?? false) || !isTest || score >= PASS_MARK
   return {
+    ...progress,
     lessons: {
       ...progress.lessons,
       [id]: { best: Math.max(old?.best ?? 0, score), completed },
@@ -47,11 +59,16 @@ export function recordScore(progress: Progress, id: string, score: number, isTes
   }
 }
 
+// logLesson counts one more lesson finished on the given day
+export function logLesson(progress: Progress, day: string): Progress {
+  return { ...progress, days: { ...progress.days, [day]: (progress.days[day] ?? 0) + 1 } }
+}
+
 export function loadProgress(): Progress {
   try {
     return parseProgress(window.localStorage.getItem(PROGRESS_KEY))
   } catch {
-    return { lessons: {} }
+    return EMPTY_PROGRESS
   }
 }
 
