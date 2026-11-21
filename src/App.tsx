@@ -73,7 +73,7 @@ export default function App(): JSX.Element {
       {!inLesson && (
         <header className="appHeader">
           <button type="button" className="brand" onClick={() => go({ screen: "home" })}>
-            <span className="brandMark" aria-hidden="true"><i /><b /><i /></span>
+            <BrandMark />
             QRS
           </button>
           <button type="button" className="iconButton" onClick={() => setShowSettings(true)} aria-label="Settings">
@@ -93,6 +93,21 @@ export default function App(): JSX.Element {
         />
       )}
     </div>
+  )
+}
+
+// the logo is the app's name, QRS, in Morse: a dot is an <i>, a dash a <b>
+const BRAND_CODES = ["--.-", ".-.", "..."] // Q, R, S
+
+function BrandMark(): JSX.Element {
+  return (
+    <span className="brandMark" aria-hidden="true">
+      {BRAND_CODES.map((code, i) => (
+        <span key={i} className="brandLetter">
+          {[...code].map((el, j) => el == "." ? <i key={j} /> : <b key={j} />)}
+        </span>
+      ))}
+    </span>
   )
 }
 
