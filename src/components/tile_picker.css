@@ -1,0 +1,102 @@
+.tilePicker {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+}
+
+.tileAnswer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 72px;
+  padding: 10px;
+  border-bottom: 2px solid var(--border);
+  border-top: 2px solid var(--border);
+  transition: background-color 120ms;
+}
+
+.tileAnswer.over {
+  background: var(--accent-soft);
+}
+
+.tileAnswerHint {
+  color: var(--fg-faint);
+  font-size: 15px;
+}
+
+.tilePool {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  min-height: 52px;
+  padding: 8px 14px;
+  border: 2px solid var(--border);
+  border-bottom-width: 4px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  color: var(--fg);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  touch-action: none;
+  transition: transform 80ms, border-color 80ms;
+}
+
+.tilePicker.wide .tile {
+  font-size: 18px;
+}
+
+button.tile:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+button.tile:active:not(:disabled) {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+  margin-bottom: 2px;
+}
+
+button.tile:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.tileSlot {
+  background: var(--pressed-bg);
+  border-color: var(--pressed-bg);
+  color: transparent;
+}
+
+.tileSlot * {
+  visibility: hidden;
+}
+
+.tilePlaceholder {
+  border-style: dashed;
+  border-bottom-width: 2px;
+  background: transparent;
+}
+
+.tileFloating {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  box-shadow: 0 10px 24px var(--shadow);
+  transform: rotate(-3deg) scale(1.06);
+  border-color: var(--accent);
+}
+
+.tilePicker.dragging {
+  cursor: grabbing;
+}

@@ -1,0 +1,78 @@
+.morse {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  row-gap: 0.6em;
+}
+
+.morseWordWrap,
+.morseWord {
+  display: inline-flex;
+  align-items: center;
+}
+
+.morseWord {
+  gap: 0.75em;
+}
+
+.morseSlash {
+  margin: 0 0.6em;
+  color: var(--fg-faint);
+  font-weight: 300;
+}
+
+.morseLetter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28em;
+}
+
+.morseEl {
+  display: inline-block;
+  height: 0.5em;
+  border-radius: 0.25em;
+  background: var(--fg-muted);
+  transition: background-color 60ms, transform 60ms, box-shadow 60ms;
+}
+
+.morseEl.dot {
+  width: 0.5em;
+}
+
+.morseEl.dash {
+  width: 1.5em;
+}
+
+.morseEl.heard {
+  background: var(--accent);
+  opacity: 0.55;
+}
+
+.morseEl.active {
+  background: var(--accent);
+  transform: scale(1.35);
+  box-shadow: 0 0 0.6em var(--accent);
+}
+
+.morse-large {
+  font-size: 28px;
+}
+
+.morse-small {
+  font-size: 13px;
+}
+
+.morse-small .morseWord {
+  gap: 0.6em;
+}
+
+.morse-small .morseLetter + .morseLetter {
+  margin-left: 0.7em;
+}
+
+@media (max-width: 420px) {
+  .morse-large {
+    font-size: 22px;
+  }
+}
