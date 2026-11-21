@@ -5,7 +5,7 @@ A web app for learning Morse code in short lessons, in the style of a language-l
 - **Chapters** cover a broad theme, and each one ends in a **test** that you pass with 80%.
   Everything is open from the start, so you can go to any chapter or lesson.
 - **Lessons** take about five minutes. Each one opens by introducing its new letters or
-  words, which you can tap to hear, and then has 8 exercises (you can change the number in
+  words, which you can tap to hear, and then has 12 exercises (you can change the number in
   Settings). The exercises get a little harder through each lesson and each chapter:
   - *listen and read*: you hear the code, see it light up as it plays, and pick the answer
     from tiles

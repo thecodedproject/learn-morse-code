@@ -25,11 +25,16 @@ export const DEFAULT_SETTINGS: Settings = {
   speed: "normal",
   toneHz: 600,
   volume: 0.7,
-  exerciseCount: 8,
+  exerciseCount: 12,
   keyWpm: 10,
 }
 
 const SETTINGS_KEY = "learn-morse.settings"
+
+// saves from before version 2 hold the old default of 8 exercises a lesson (every
+// visit saves the settings, changed or not), so their count is dropped for the new one
+const SETTINGS_VERSION = 2
+
 const THEME_KEY = "learn-morse.theme"
 
 export function clamp(value: number, min: number, max: number): number {
@@ -54,7 +59,7 @@ export function parseSettings(saved: string | null): Settings {
     speed: (SPEEDS as readonly unknown[]).includes(raw.speed) ? raw.speed : d.speed,
     toneHz: isNum(raw.toneHz) ? clamp(Math.round(raw.toneHz), MIN_TONE, MAX_TONE) : d.toneHz,
     volume: isNum(raw.volume) ? clamp(raw.volume, 0, 1) : d.volume,
-    exerciseCount: isNum(raw.exerciseCount)
+    exerciseCount: isNum(raw.exerciseCount) && raw.version >= SETTINGS_VERSION
       ? clamp(Math.round(raw.exerciseCount), MIN_EXERCISES, MAX_EXERCISES) : d.exerciseCount,
     keyWpm: isNum(raw.keyWpm) ? clamp(Math.round(raw.keyWpm), 4, 30) : d.keyWpm,
   }
@@ -72,7 +77,7 @@ export function loadSettings(): Settings {
 
 export function saveSettings(settings: Settings): void {
   try {
-    window.localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings))
+    window.localStorage.setItem(SETTINGS_KEY, JSON.stringify({ ...settings, version: SETTINGS_VERSION }))
   } catch {
     // not remembered
   }

@@ -28,4 +28,10 @@ describe("settings", () => {
     expect(parseSettings("[1]")).toEqual(DEFAULT_SETTINGS)
     expect(parseSettings(JSON.stringify({ speed: "warp", toneHz: 5000 })).toneHz).toBe(1000)
   })
+
+  it("moves saves from before version 2 on to 12 exercises a lesson", () => {
+    expect(parseSettings(JSON.stringify({ exerciseCount: 8, speed: "faster" })))
+      .toEqual({ ...DEFAULT_SETTINGS, exerciseCount: 12, speed: "faster" })
+    expect(parseSettings(JSON.stringify({ exerciseCount: 6, version: 2 })).exerciseCount).toBe(6)
+  })
 })
