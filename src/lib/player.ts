@@ -26,6 +26,49 @@ export class MorsePlayer {
   private frame?: number
   private finish?: () => void
   private keyTone?: { osc: OscillatorNode, gain: GainNode }
+  // set when the audio may have been cut off, by the app going into the background or
+  // by iOS taking the audio away (a phone call, say)
+  private interrupted = false
+
+  constructor() {
+    if (typeof window == "undefined") {
+      return
+    }
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState == "hidden") {
+        this.interrupted = true
+        this.stop()
+      } else {
+        this.ctx?.resume().catch(() => undefined)
+      }
+    })
+    window.addEventListener("pageshow", () => this.ctx?.resume().catch(() => undefined))
+    // these run before any button's own handler, so a tap on Play finds the audio
+    // already back
+    for (const type of ["pointerdown", "touchend", "click", "keydown"]) {
+      window.addEventListener(type, () => this.revive(), { capture: true })
+    }
+  }
+
+  // revive brings back audio that was cut off. iOS can leave the old context suspended
+  // (or "interrupted") however often it's asked to resume, so inside a tap, which is
+  // when a browser allows new audio, it's swapped for a fresh one.
+  private revive() {
+    const ctx = this.ctx
+    if (ctx == undefined || !this.interrupted) {
+      return
+    }
+    if (ctx.state == "running") {
+      this.interrupted = false
+      return
+    }
+    this.stop()
+    this.output?.disconnect()
+    ctx.close().catch(() => undefined)
+    this.ctx = undefined
+    this.interrupted = false
+    this.ensure()
+  }
 
   setTone(hz: number) {
     this.toneHz = hz
@@ -47,7 +90,13 @@ export class MorsePlayer {
       if (Context == undefined) {
         throw new Error("this browser cannot play audio")
       }
-      this.ctx = new Context() as AudioContext
+      const ctx = new Context() as AudioContext
+      ctx.onstatechange = () => {
+        if (ctx.state != "running") {
+          this.interrupted = true
+        }
+      }
+      this.ctx = ctx
       this.newOutput()
     }
     // iOS stays silent with the ringer switched off unless told this is playback
@@ -56,7 +105,7 @@ export class MorsePlayer {
       try { session.type = "playback" } catch { /* older browsers */ }
     }
     if (this.ctx.state != "running") {
-      this.ctx.resume()
+      this.ctx.resume().catch(() => undefined)
     }
     return this.ctx
   }
@@ -71,6 +120,9 @@ export class MorsePlayer {
     for (const el of timeline.elements) {
       this.beep(start + el.start, el.duration)
     }
+    // if the audio clock stalls (the audio was cut off and hasn't come back), playing
+    // still ends, going by the wall clock, so nothing waits on it for ever
+    const deadline = performance.now() + (LEAD_IN + timeline.duration) * 1000 + 1500
     return new Promise(resolve => {
       let last: PlayState | undefined
       const done = () => {
@@ -85,7 +137,7 @@ export class MorsePlayer {
       this.finish = done
       const track = () => {
         const t = ctx.currentTime - start
-        if (t > timeline.duration + 0.05) {
+        if (t > timeline.duration + 0.05 || performance.now() > deadline) {
           done()
           return
         }
