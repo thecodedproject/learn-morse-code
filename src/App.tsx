@@ -74,7 +74,7 @@ export default function App(): JSX.Element {
         <header className="appHeader">
           <button type="button" className="brand" onClick={() => go({ screen: "home" })}>
             <span className="brandMark" aria-hidden="true"><i /><b /><i /></span>
-            Dit Dah
+            QRS
           </button>
           <button type="button" className="iconButton" onClick={() => setShowSettings(true)} aria-label="Settings">
             <GearIcon />

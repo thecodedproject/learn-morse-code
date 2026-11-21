@@ -1,6 +1,8 @@
-# Dit Dah: learn Morse code
+# QRS: learn Morse code
 
 A web app for learning Morse code in short lessons, in the style of a language-learning app.
+
+The name is the Q-code operators send to ask for slower sending: `QRS?` means "shall I send more slowly?", and `QRS` means "please send more slowly".
 
 - **Chapters** cover a broad theme, and each one ends in a **test** that you pass with 80%.
   Everything is open from the start, so you can go to any chapter or lesson.

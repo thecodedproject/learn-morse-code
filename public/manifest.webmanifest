@@ -1,6 +1,6 @@
 {
-  "name": "Dit Dah",
-  "short_name": "Dit Dah",
+  "name": "QRS",
+  "short_name": "QRS",
   "description": "Learn Morse code in short, friendly lessons",
   "start_url": "./",
   "scope": "./",
